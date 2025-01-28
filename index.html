@@ -13,7 +13,12 @@
       <button id="yes-button">Yes</button>
       <button id="no-button">No</button>
     </div>
-  </div>
+  </div>  
+
+  <div class="love-container" id="love-container">
+    <h1>YAY I LOVE YOU❤️</h1>
+</div>
+
   <canvas id="heart"></canvas>
   <script src="script.js"></script>
   <script>
@@ -23,14 +28,21 @@
       const buttonContainer = document.getElementById('button-container');
       const canvas = document.getElementById('heart');
       const container = document.getElementById('C1');
+      const loveContainer = document.getElementById('love-container')
       let swapped = false;
       var count = 0;
 
       yesButton.addEventListener('click', () => {
         canvas.style.opacity = '1';
         container.style.opacity = '0';
+        container.style.display = 'none';
         canvas.style.pointerEvents = 'all';
+        loveContainer.style.display = 'flex';
         init();
+        setTimeout(()=> {
+            loveContainer.style.opacity = '1'
+        }, 5000); 
+        
       });
 
       noButton.addEventListener('click', () => {

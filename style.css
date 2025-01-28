@@ -16,7 +16,16 @@ body {
     opacity: 1;
     transition: opacity 1s ease-in-out; /* Smooth fade-out for the container */
   }
-  
+
+  .love-container {
+    text-align: center;
+    position: relative;
+    z-index: 10; /* Ensure the prompt is above the canvas initially */
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Smooth fade-out for the container */
+    display: none;
+  }
+
   h1 {
     font-size: 2.5rem;
     color: white;
