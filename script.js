@@ -25,13 +25,14 @@ var init = function () {
     if (loaded) return;
     loaded = true;
     var mobile = window.isDevice;
-    var koef = innerWidth < 768 ? 0.7 : 1; // Scale for devices narrower than 768px
+    var koef = innerWidth < 768 ? 0.85 : 1; // Increased for better mobile visibility
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
     var height = canvas.height = koef * innerHeight;
     var rand = Math.random;
-    ctx.fillStyle = "rgba(0,0,0,1)";
+    
+    ctx.fillStyle = window.innerWidth < 768 ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)"; // Adjusted opacity for mobile
     ctx.fillRect(0, 0, width, height);
 
     var heartPosition = function (rad) {
@@ -42,20 +43,21 @@ var init = function () {
         return [dx + pos[0] * sx, dy + pos[1] * sy];
     };
 
+    // Ensure proper scaling on resize
     window.addEventListener('resize', function () {
         width = canvas.width = koef * innerWidth;
         height = canvas.height = koef * innerHeight;
-        ctx.fillStyle = "rgba(0,0,0,1)";
+        ctx.fillStyle = window.innerWidth < 768 ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)";
         ctx.fillRect(0, 0, width, height);
     });
 
-    var traceCount = mobile ? 20 : 50;
+    var traceCount = mobile ? 25 : 50; // Increased particle density for mobile
     var pointsOrigin = [];
     var i;
-    var dr = mobile ? 0.3 : 0.1;
-    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 210, 13, 0, 0));
-    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 150, 9, 0, 0));
-    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 90, 5, 0, 0));
+    var dr = mobile ? 0.2 : 0.1; // More points for mobile
+    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 210 * koef, 13 * koef, 0, 0));
+    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 150 * koef, 9 * koef, 0, 0));
+    for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 90 * koef, 5 * koef, 0, 0));
     var heartPointsCount = pointsOrigin.length;
 
     var targetPoints = [];
@@ -79,7 +81,7 @@ var init = function () {
             q: ~~(rand() * heartPointsCount),
             D: 2 * (i % 2) - 1,
             force: 0.2 * rand() + 0.7,
-            f: "hsla(0," + ~~(40 * rand() + 60) + "%," + ~~(60 * rand() + 20) + "%,.3)",
+            f: "hsla(0," + ~~(40 * rand() + 60) + "%," + ~~(60 * rand() + 20) + "%,.5)", // Adjusted opacity for visibility
             trace: []
         };
         for (var k = 0; k < traceCount; k++) e[i].trace[k] = {x: x, y: y};
@@ -95,8 +97,9 @@ var init = function () {
         var n = -Math.cos(time);
         pulse((1 + n) * .5, (1 + n) * .5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
+        ctx.fillStyle = window.innerWidth < 768 ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)"; // Keep the heart more visible on mobile
         ctx.fillRect(0, 0, width, height);
+        
         for (i = e.length; i--;) {
             var u = e[i];
             var q = targetPoints[u.q];
