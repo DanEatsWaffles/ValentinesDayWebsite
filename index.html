@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine's Day</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container" id="C1">
+    <h1>Will you be my Valentine?</h1>
+    <div class="button-container" id="button-container">
+      <button id="yes-button">Yes</button>
+      <button id="no-button">No</button>
+    </div>
+  </div>
+  <canvas id="heart"></canvas>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const yesButton = document.getElementById('yes-button');
+      const noButton = document.getElementById('no-button');
+      const buttonContainer = document.getElementById('button-container');
+      const canvas = document.getElementById('heart');
+      const container = document.getElementById('C1');
+      let swapped = false;
+      var count = 0;
+
+      yesButton.addEventListener('click', () => {
+        canvas.style.opacity = '1';
+        container.style.opacity = '0';
+        canvas.style.pointerEvents = 'all';
+        init();
+      });
+
+      noButton.addEventListener('click', () => {
+        swapped = !swapped;
+        count++;
+
+        // Swap buttons using flexbox instead of insertBefore
+        buttonContainer.style.flexDirection = swapped ? "row-reverse" : "row";
+
+        // Animate the swap smoothly
+        yesButton.style.transform = "scale(1.1)";
+        noButton.style.transform = "scale(1.1)";
+
+        setTimeout(() => {
+          yesButton.style.transform = "";
+          noButton.style.transform = "";
+        }, 300);
+
+        if (count === 4) {
+          noButton.classList.add("fade-out"); // Smooth fade-out effect
+          yesButton.classList.add("expand-button"); // Smoothly grow Yes button
+          
+          setTimeout(() => {
+            noButton.style.display = "none"; // Remove No button completely
+          }, 500); // Matches animation duration
+        }
+      });
+    });
+  </script>
+</body>
+</html>
