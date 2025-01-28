@@ -25,7 +25,7 @@ var init = function () {
     if (loaded) return;
     loaded = true;
     var mobile = window.isDevice;
-    var koef = mobile ? 0.5 : 1;
+    var koef = innerWidth < 768 ? 0.7 : 1; // Scale for devices narrower than 768px
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
