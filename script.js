@@ -51,7 +51,7 @@ var init = function () {
         ctx.fillRect(0, 0, width, height);
     });
 
-    var traceCount = mobile ? 25 : 50; // Increased particle density for mobile
+    var traceCount = mobile ? 50 : 50; // Increased particle density for mobile
     var pointsOrigin = [];
     var i;
     var dr = mobile ? 0.2 : 0.1; // More points for mobile
